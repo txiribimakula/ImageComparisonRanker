@@ -1,8 +1,10 @@
 ﻿namespace ImageComparisonRanker
 {
     using ImageMagick;
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     class Program
     {
@@ -21,6 +23,16 @@
                 double diff = referenceImage.Compare(image, ErrorMetric.Absolute);
                 imageComparisons.Add(file.Name, diff);
             }
+
+            IOrderedEnumerable<KeyValuePair<string, double>> orderedImageComparisons = imageComparisons.OrderBy(item => item.Value);
+
+            foreach (var item in orderedImageComparisons) {
+                Console.Write(item.Key);
+                Console.Write(" - ");
+                Console.WriteLine(item.Value);
+            }
+
+            Console.ReadLine();
         }
     }
 }
